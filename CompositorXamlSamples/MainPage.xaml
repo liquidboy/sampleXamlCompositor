@@ -1,0 +1,35 @@
+﻿<Page
+    x:Class="CompositorXamlSamples.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CompositorXamlSamples"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid x:Name="layoutRoot" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Loaded="layoutRoot_Loaded">
+        
+        <Grid Background="Red" Width="200" Height="200" Margin="50,50,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" >
+            <TextBlock>XAML underneath</TextBlock>
+        </Grid>
+        
+        
+        <Grid x:Name="bottomSurface" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        </Grid>
+        
+        
+        <Grid Background="Green" Width="200" Height="200" Margin="100,100,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" >
+            <TextBlock>XAML above</TextBlock>
+        </Grid>
+
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,0">
+            
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Saturation" />
+                <Slider x:Name="sliderSaturation" Minimum="0" Maximum="2" Value="1" StepFrequency="0.01" Width="300" ValueChanged="sliderSaturation_ValueChanged"  />
+            </StackPanel>
+            
+        </StackPanel>
+    </Grid>
+</Page>
