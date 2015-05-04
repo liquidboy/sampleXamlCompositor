@@ -76,8 +76,11 @@ namespace CompositorXamlSamples
         private async void InitCompositionBits() {
 
             if (_largeImage != null) _largeImage.Dispose();
+
+            //load image content
             _largeImage = _compositor.DefaultGraphicsDevice.CreateImageFromUri(new Uri("ms-appx:///Assets/Flower2.jpg"));
 
+            //wait for image to finish loading (which gives us its properties like size)
             await _largeImage.CompleteLoadAsync();
 
 
@@ -88,26 +91,29 @@ namespace CompositorXamlSamples
             //_imgVisual.Offset = new System.Numerics.Vector3((float)75, (float)75, 0);
             ////_imgVisual.Scale = new System.Numerics.Vector3(0.5f, 0.5f, 0);
             //_bottomVisual.Children.InsertAtTop(_imgVisual);
+            
 
-
-
-            //doing saturation
+            //setup definition of effect
             _saturationDefinition = new Microsoft.Graphics.Canvas.Effects.SaturationEffect();
             _saturationDefinition.Saturation = 1f;
             _saturationDefinition.Name = "sat";
             _saturationDefinition.Source = new CompositionEffectSourceParameter("Image");
 
+            //effect factory to generate our effects (based on the definiton above)
             CompositionEffectFactory cef = _compositor.CreateEffectFactory(_saturationDefinition);
 
+            //create our effect and set any settings on it
             _saturationEffect = cef.CreateEffect();
             _saturationEffect.SetSourceParameter("Image", _largeImage);
 
+            //create a compositor visual that we apply our effect on
             _saturationVisual = _compositor.CreateEffectVisual();
             _saturationVisual.Effect = _saturationEffect;
             _saturationVisual.Size = new System.Numerics.Vector2((float)_largeImage.Size.Width, (float)_largeImage.Size.Height);
             _saturationVisual.Offset = new System.Numerics.Vector3((float)75, (float)75, 0);
             _saturationVisual.Scale = new System.Numerics.Vector3(0.4f, 0.4f, 0);
 
+            //add the visual into the tree for rendering
             _bottomVisual.Children.InsertAtBottom(_saturationVisual);
             
         }
