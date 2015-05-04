@@ -83,16 +83,7 @@ namespace CompositorXamlSamples
             //wait for image to finish loading (which gives us its properties like size)
             await _largeImage.CompleteLoadAsync();
 
-
-            //_imgVisual = _compositor.CreateImageVisual();
-            //_imgVisual.Image = _largeImage;
-
-            //_imgVisual.Size = new System.Numerics.Vector2((float)_largeImage.Size.Width, (float)_largeImage.Size.Height);
-            //_imgVisual.Offset = new System.Numerics.Vector3((float)75, (float)75, 0);
-            ////_imgVisual.Scale = new System.Numerics.Vector3(0.5f, 0.5f, 0);
-            //_bottomVisual.Children.InsertAtTop(_imgVisual);
             
-
             //setup definition of effect
             _saturationDefinition = new Microsoft.Graphics.Canvas.Effects.SaturationEffect();
             _saturationDefinition.Saturation = 1f;
@@ -121,12 +112,16 @@ namespace CompositorXamlSamples
         private void sliderSaturation_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
             if (_saturationDefinition == null) return;
+
+            //update saturation
             _saturationDefinition.Saturation = (float)e.NewValue;
 
-
+            //recreate effect which has updated saturation
             CompositionEffectFactory cef = _compositor.CreateEffectFactory(_saturationDefinition);
             _saturationEffect = cef.CreateEffect();
             _saturationEffect.SetSourceParameter("Image", _largeImage);
+
+            //update existing visual with newly recreated effect
             _saturationVisual.Effect = _saturationEffect;
         }
     }
